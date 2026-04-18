@@ -1,0 +1,131 @@
+Build a clean, production-style website for BLACK DOG SECURITY, the protective operations and security layer inside the RSR Intelligence Network.
+
+STACK
+- React + Vite
+- Tailwind CSS
+- Framer Motion for subtle motion only
+- lucide-react for icons
+
+MISSION
+This site must feel like part of the same ecosystem as the other RSR sites:
+- minimal
+- dark
+- glassy
+- techy
+- premium
+- command-interface feel
+- not flashy, not cyberpunk, not cheesy
+
+DESIGN LANGUAGE
+- black / charcoal base
+- thin steel-gray borders
+- restrained emerald highlights
+- soft glass panels
+- subtle grid or scanline texture in background
+- slight glow only on active buttons or important indicators
+- sharp corners or lightly rounded corners, not bubbly
+- text must be crisp and readable, never dim or washed out
+
+AVOID
+- cartoon styling
+- giant neon effects
+- fake hacker visuals
+- clutter
+- over-animated backgrounds
+- fake “live” claims unless clearly labeled system status / monitoring ready
+- huge walls of text
+
+SITE GOAL
+Create a simple one-page website that presents BLACK DOG as a serious internal/external security division connected to the wider RSR network.
+
+SECTIONS
+1. HERO
+- Strong headline like:
+  “BLACK DOG SECURITY”
+  “Protective Operations for the RSR Network”
+- Short supporting paragraph explaining that BLACK DOG handles protective posture, operational security, exposure monitoring, system hardening, and internal security support.
+- Two buttons:
+  - “Request Briefing”
+  - “Return to RSR Intel” (open https://www.rsrintel.com in a new tab)
+
+2. CAPABILITIES
+Create 4 to 6 glass cards with icons and short descriptions for:
+- Operational Security
+- Exposure Monitoring
+- Information Protection
+- Threat Awareness
+- System Hardening
+- Protective Alerts
+
+3. SECURITY POSTURE PANEL
+A sleek glass command card that looks like a live status panel.
+Include items such as:
+- Protective Posture: Active
+- Network Integrity: Stable
+- Exposure Monitoring: Enabled
+- Internal Routing: Secured
+- Analyst Support: Available
+
+This should feel premium and real, but not overcomplicated.
+
+4. NETWORK CONNECTIONS
+Show BLACK DOG’s relationship to the RSR ecosystem using simple connected glass tiles:
+- RSR Intel
+- AXION
+- SENTRIX
+- BLACK DOG
+Add short one-line descriptions for each.
+This section should make it feel interconnected.
+
+5. ACCESS / CONTACT SECTION
+Simple call-to-action area:
+- headline
+- short sentence
+- glass form layout UI mockup with fields like Name / Organization / Request Type / Message
+This can be visual only unless implementing actual form logic is easy.
+
+HEADER / NAV
+- Minimal top nav
+- Logo/wordmark on left: BLACK DOG SECURITY
+- Links: Capabilities, Posture, Network, Access
+- Button on right: Return to RSR Intel
+
+FOOTER
+- Minimal footer
+- “BLACK DOG SECURITY // RSR Intelligence Network”
+- small status note like “Protective Layer Online”
+
+MOTION
+Use subtle motion only:
+- gentle fade/slide on section load
+- slight hover lift on cards
+- soft pulse on one status dot
+Do NOT overdo animation.
+
+GRAPHICS
+Use clean tech graphics:
+- subtle background grid
+- faint radial glow
+- glass panels
+- maybe one abstract shield/radar/security visualization in the hero
+Keep it lightweight and elegant.
+
+COPY TONE
+- controlled
+- serious
+- tactical
+- premium
+- intelligence/security language
+No cringe marketing talk.
+
+TECH REQUIREMENTS
+- Fully responsive
+- Good desktop and mobile layout
+- Clean component structure
+- No broken placeholder content
+- Keep code organized and easy to edit
+- Make text brightness strong enough to read clearly
+- Make the site feel visually polished even though it is simple
+
+DELIVERABLE
+Return the finished React page/components with Tailwind styling ready to run in Replit.
