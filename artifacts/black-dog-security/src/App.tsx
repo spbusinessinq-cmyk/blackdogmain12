@@ -17,9 +17,7 @@ setAuthTokenGetter(() => sessionStorage.getItem(TOKEN_KEY));
 
 function ProtectedRoute({ component: Component }: { component: React.ComponentType }) {
   const token = sessionStorage.getItem(TOKEN_KEY);
-  if (!token) {
-    return <Redirect to="/commander/login" />;
-  }
+  if (!token) return <Redirect to="/commander/login" />;
   return <Component />;
 }
 
@@ -28,6 +26,9 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/commander/login" component={CommanderLogin} />
+      <Route path="/commander/dashboard">
+        {() => <ProtectedRoute component={CommanderDashboard} />}
+      </Route>
       <Route path="/commander">
         {() => <ProtectedRoute component={CommanderDashboard} />}
       </Route>

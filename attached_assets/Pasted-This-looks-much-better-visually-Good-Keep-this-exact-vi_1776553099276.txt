@@ -1,0 +1,181 @@
+This looks much better visually. Good. Keep this exact visual direction.
+
+Now stop visual polishing and build the missing operational layer.
+
+The Commander Center is NOT present yet.
+I need it added now.
+
+IMPORTANT:
+- Do not redesign the public BLACK DOG page
+- Keep the current red/black hardened aesthetic
+- Build the commander system on top of this exact site
+- Keep EdgeOne deployment compatibility
+
+==================================================
+WHAT IS MISSING RIGHT NOW
+==================================================
+
+The current site only shows the public-facing page.
+It does NOT yet include:
+
+- hidden commander login route
+- protected commander dashboard
+- request review queue
+- request detail view
+- approve / deny / request-more-info actions
+- packet preview / dispatch system
+- audit trail / action history
+
+Those must now be built.
+
+==================================================
+BUILD THIS NOW
+==================================================
+
+1. ADD A HIDDEN COMMANDER ROUTE
+Create:
+- /commander/login
+- /commander/dashboard
+
+Do NOT place this in the public top nav.
+
+Optional:
+- allow access from direct URL only
+OR
+- place a tiny low-visibility footer/admin trigger if needed
+
+2. COMMANDER LOGIN
+Temporary dev auth:
+- username: rsr-admin
+- password: 4451
+
+IMPORTANT:
+Do NOT expose these directly in client-side frontend constants.
+Use environment-backed or server-side validation if possible.
+
+3. PUBLIC REQUEST INTAKE
+Make the current request form actually submit and create records.
+
+Store:
+- request ID
+- full name / callsign
+- organization
+- email
+- request type
+- subject
+- message
+- linked system
+- status
+- createdAt
+- updatedAt
+- internal notes
+- action history
+
+Generate request IDs like:
+- BDS-REQ-0001
+- BDS-REQ-0002
+
+After submit:
+- show confirmation state
+- show generated request ID
+- say request was logged for internal review
+
+4. COMMANDER DASHBOARD
+The dashboard must show:
+- Pending
+- Approved
+- More Info Requested
+- Denied
+
+Each item must show:
+- request ID
+- name
+- organization
+- request type
+- linked system
+- submitted time
+- current status
+
+Each request must be clickable into detail view.
+
+5. REQUEST DETAIL VIEW
+For each request include:
+- full submission info
+- status controls
+- internal notes
+- action history
+- packet status
+
+Actions:
+- Approve
+- Request More Info
+- Deny
+- Send Packet
+- View Packet Preview
+
+6. INFO PACKET SYSTEM
+Create a premade BLACK DOG information packet.
+
+Need:
+- packet template
+- preview UI
+- send/log dispatch action
+- packet log entry
+
+Packet should include:
+- BLACK DOG overview
+- mission
+- capabilities
+- role in RSR ecosystem
+- next-step instructions
+- controlled-access language
+
+7. RESPONSE TEMPLATES
+Create reusable templates for:
+- approval
+- more info requested
+- denial
+
+8. AUDIT TRAIL
+Track:
+- request submitted
+- login success/failure
+- approved
+- denied
+- more info requested
+- packet sent
+- timestamps
+- actor
+
+==================================================
+DESIGN REQUIREMENTS
+==================================================
+
+Commander Center must visually match the current BLACK DOG aesthetic:
+- black / obsidian / gunmetal base
+- restrained crimson accents
+- hardened glass panels
+- premium intelligence/security feel
+- not generic SaaS admin
+- not bright
+- not cluttered
+
+It should feel like a restricted internal review board.
+
+==================================================
+DELIVERABLE
+==================================================
+
+Implement the missing commander layer now:
+
+- /commander/login
+- /commander/dashboard
+- working request submission flow
+- request ID generation
+- request review queue
+- detail page
+- approve/deny/more-info actions
+- packet preview
+- send packet action
+- audit history
+- clean EdgeOne-friendly structure

@@ -333,6 +333,10 @@ components:
       properties:
         id:
           type: string
+        displayId:
+          type: string
+        seqNum:
+          type: integer
         name:
           type: string
         organization:
@@ -359,7 +363,7 @@ components:
           type: string
         updatedAt:
           type: string
-      required: [id, name, organization, email, requestType, subject, message, linkedSystem, status, packetSent, createdAt, updatedAt]
+      required: [id, displayId, seqNum, name, organization, email, requestType, subject, message, linkedSystem, status, packetSent, createdAt, updatedAt]
 
     ActionHistoryEntry:
       type: object
@@ -383,6 +387,10 @@ components:
       properties:
         id:
           type: string
+        displayId:
+          type: string
+        seqNum:
+          type: integer
         name:
           type: string
         organization:
@@ -413,7 +421,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ActionHistoryEntry"
-      required: [id, name, organization, email, requestType, subject, message, linkedSystem, status, packetSent, createdAt, updatedAt, history]
+      required: [id, displayId, seqNum, name, organization, email, requestType, subject, message, linkedSystem, status, packetSent, createdAt, updatedAt, history]
 
     LoginBody:
       type: object

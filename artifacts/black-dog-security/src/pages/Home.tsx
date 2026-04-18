@@ -291,7 +291,7 @@ const networkNodes = [
 /* ——— Main component ——— */
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-  const [submitted, setSubmitted] = React.useState(false);
+  const [submittedId, setSubmittedId] = React.useState<string | null>(null);
   const { toast } = useToast();
   const submitRequest = useSubmitRequest();
 
@@ -302,15 +302,9 @@ export default function Home() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await submitRequest.mutateAsync({ data: { ...values, linkedSystem: "General" } });
-      setSubmitted(true);
-      toast({
-        title: "Request Logged",
-        description: "Your submission has been received and queued for secure review.",
-        duration: 5000,
-      });
+      const result = await submitRequest.mutateAsync({ data: { ...values, linkedSystem: "General" } });
+      setSubmittedId(result.displayId || result.id.slice(0, 8).toUpperCase());
       form.reset();
-      setTimeout(() => setSubmitted(false), 6000);
     } catch {
       toast({
         title: "Submission Failed",
@@ -722,15 +716,25 @@ export default function Home() {
                 </span>
               </div>
 
-              {submitted ? (
+              {submittedId ? (
                 <div className="py-10 text-center">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/25 flex items-center justify-center mx-auto mb-4">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/25 flex items-center justify-center mx-auto mb-5">
                     <ChevronRight className="w-5 h-5 text-primary" />
                   </div>
-                  <div className="font-mono text-sm text-white tracking-wide mb-2">Request Logged</div>
-                  <div className="font-mono text-xs text-white/35">
-                    Your submission has been received and queued for secure review.
+                  <div className="font-mono text-sm text-white tracking-wide mb-3">Request Logged</div>
+                  <div className="inline-block border border-[hsl(350,46%,46%)]/30 bg-[hsl(350,46%,46%)]/[0.06] rounded-sm px-5 py-2.5 mb-4">
+                    <div className="font-mono text-[10px] uppercase tracking-widest text-white/30 mb-1">Reference ID</div>
+                    <div className="font-mono text-lg text-white tracking-widest">{submittedId}</div>
                   </div>
+                  <div className="font-mono text-xs text-white/35 leading-relaxed max-w-xs mx-auto">
+                    Your submission is queued for secure review. Retain your reference ID for follow-up.
+                  </div>
+                  <button
+                    onClick={() => setSubmittedId(null)}
+                    className="mt-6 font-mono text-[10px] uppercase tracking-widest text-white/25 hover:text-white/55 transition-colors"
+                  >
+                    Submit Another Request
+                  </button>
                 </div>
               ) : (
                 <Form {...form}>

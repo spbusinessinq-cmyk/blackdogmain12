@@ -22,12 +22,17 @@ router.post("/commander/login", async (req, res) => {
     tokenStore.add(token);
 
     await db.insert(systemLogsTable).values({
-      event: "commander_login",
-      details: `Commander authenticated`,
+      event: "commander_login_success",
+      details: `Commander authenticated — session token issued`,
     });
 
     res.json({ token, authenticated: true });
   } else {
+    await db.insert(systemLogsTable).values({
+      event: "commander_login_failure",
+      details: `Failed login attempt — username: ${username ?? "(none)"}`,
+    });
+
     res.status(401).json({ error: "Invalid credentials" });
   }
 });
@@ -63,7 +68,8 @@ router.get("/commander/requests", requireAuth, async (req, res) => {
         r.name.toLowerCase().includes(lower) ||
         r.organization.toLowerCase().includes(lower) ||
         r.email.toLowerCase().includes(lower) ||
-        r.subject.toLowerCase().includes(lower)
+        r.subject.toLowerCase().includes(lower) ||
+        r.displayId.toLowerCase().includes(lower)
     );
   }
 

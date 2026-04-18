@@ -29,6 +29,8 @@ export interface SubmitRequestBody {
 
 export interface BdsRequest {
   id: string;
+  displayId: string;
+  seqNum: number;
   name: string;
   organization: string;
   email: string;
@@ -58,6 +60,8 @@ export interface ActionHistoryEntry {
 
 export interface BdsRequestDetail {
   id: string;
+  displayId: string;
+  seqNum: number;
   name: string;
   organization: string;
   email: string;

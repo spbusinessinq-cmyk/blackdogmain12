@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { eq } from "drizzle-orm";
 import { db } from "@workspace/db";
 import { requestsTable, systemLogsTable } from "@workspace/db/schema";
 import { randomUUID } from "crypto";
@@ -16,6 +17,7 @@ router.post("/requests", async (req, res) => {
 
     const id = randomUUID();
 
+    // Insert first to get auto-generated seqNum, then back-fill displayId
     const [created] = await db
       .insert(requestsTable)
       .values({
@@ -28,15 +30,26 @@ router.post("/requests", async (req, res) => {
         message: String(message),
         linkedSystem: linkedSystem ? String(linkedSystem) : "General",
         status: "pending",
+        displayId: "pending",
       })
       .returning();
 
+    const displayId = `BDS-REQ-${String(created.seqNum).padStart(4, "0")}`;
+
+    const [withId] = await db
+      .update(requestsTable)
+      .set({ displayId })
+      .where(eq(requestsTable.id, id))
+      .returning();
+
+    const final = withId ?? { ...created, displayId };
+
     await db.insert(systemLogsTable).values({
       event: "request_submitted",
-      details: `New request from ${name} (${organization}) — ID: ${id}`,
+      details: `New request ${displayId} from ${name} (${organization})`,
     });
 
-    res.status(201).json(created);
+    res.status(201).json(final);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });

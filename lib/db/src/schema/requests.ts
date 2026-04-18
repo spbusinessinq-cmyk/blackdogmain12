@@ -1,9 +1,11 @@
-import { pgTable, text, boolean, timestamp, serial } from "drizzle-orm/pg-core";
+import { pgTable, text, boolean, timestamp, serial, integer } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
 export const requestsTable = pgTable("bds_requests", {
   id: text("id").primaryKey(),
+  seqNum: serial("seq_num").notNull(),
+  displayId: text("display_id").notNull().default(""),
   name: text("name").notNull(),
   organization: text("organization").notNull(),
   email: text("email").notNull(),
@@ -20,6 +22,8 @@ export const requestsTable = pgTable("bds_requests", {
 });
 
 export const insertRequestSchema = createInsertSchema(requestsTable).omit({
+  seqNum: true,
+  displayId: true,
   status: true,
   internalNotes: true,
   packetSent: true,

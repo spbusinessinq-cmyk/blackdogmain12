@@ -64,6 +64,8 @@ export const ListCommanderRequestsQueryParams = zod.object({
 
 export const ListCommanderRequestsResponseItem = zod.object({
   id: zod.string(),
+  displayId: zod.string(),
+  seqNum: zod.number(),
   name: zod.string(),
   organization: zod.string(),
   email: zod.string(),
@@ -91,6 +93,8 @@ export const GetCommanderRequestParams = zod.object({
 
 export const GetCommanderRequestResponse = zod.object({
   id: zod.string(),
+  displayId: zod.string(),
+  seqNum: zod.number(),
   name: zod.string(),
   organization: zod.string(),
   email: zod.string(),
@@ -130,6 +134,8 @@ export const UpdateRequestStatusBody = zod.object({
 
 export const UpdateRequestStatusResponse = zod.object({
   id: zod.string(),
+  displayId: zod.string(),
+  seqNum: zod.number(),
   name: zod.string(),
   organization: zod.string(),
   email: zod.string(),
@@ -158,6 +164,8 @@ export const UpdateRequestNotesBody = zod.object({
 
 export const UpdateRequestNotesResponse = zod.object({
   id: zod.string(),
+  displayId: zod.string(),
+  seqNum: zod.number(),
   name: zod.string(),
   organization: zod.string(),
   email: zod.string(),
@@ -182,6 +190,8 @@ export const DispatchPacketParams = zod.object({
 
 export const DispatchPacketResponse = zod.object({
   id: zod.string(),
+  displayId: zod.string(),
+  seqNum: zod.number(),
   name: zod.string(),
   organization: zod.string(),
   email: zod.string(),
