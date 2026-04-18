@@ -2,21 +2,25 @@ openapi: 3.1.0
 info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
-  version: 0.1.0
-  description: API specification
+  version: 0.2.0
+  description: BLACK DOG SECURITY API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: requests
+    description: Public intake requests
+  - name: commander
+    description: Commander Center (protected)
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +28,264 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /requests:
+    post:
+      operationId: submitRequest
+      tags: [requests]
+      summary: Submit an access/briefing request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmitRequestBody"
+      responses:
+        "201":
+          description: Request created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BdsRequest"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /commander/login:
+    post:
+      operationId: commanderLogin
+      tags: [commander]
+      summary: Admin login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginBody"
+      responses:
+        "200":
+          description: Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /commander/logout:
+    post:
+      operationId: commanderLogout
+      tags: [commander]
+      summary: Admin logout
+      responses:
+        "200":
+          description: Logged out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+
+  /commander/session:
+    get:
+      operationId: getCommanderSession
+      tags: [commander]
+      summary: Check session status
+      responses:
+        "200":
+          description: Session info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionStatus"
+
+  /commander/requests:
+    get:
+      operationId: listCommanderRequests
+      tags: [commander]
+      summary: List all requests
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BdsRequest"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /commander/requests/{id}:
+    get:
+      operationId: getCommanderRequest
+      tags: [commander]
+      summary: Get request with action history
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Request detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BdsRequestDetail"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /commander/requests/{id}/status:
+    patch:
+      operationId: updateRequestStatus
+      tags: [commander]
+      summary: Update request status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateStatusBody"
+      responses:
+        "200":
+          description: Updated request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BdsRequest"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /commander/requests/{id}/notes:
+    patch:
+      operationId: updateRequestNotes
+      tags: [commander]
+      summary: Update internal notes on a request
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateNotesBody"
+      responses:
+        "200":
+          description: Updated request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BdsRequest"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /commander/requests/{id}/dispatch:
+    post:
+      operationId: dispatchPacket
+      tags: [commander]
+      summary: Dispatch information packet to requester
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Packet dispatched
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BdsRequest"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /commander/logs:
+    get:
+      operationId: getSystemLogs
+      tags: [commander]
+      summary: Get system event log
+      responses:
+        "200":
+          description: System logs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SystemLogEntry"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
 components:
   schemas:
     HealthStatus:
@@ -31,6 +293,178 @@ components:
       properties:
         status:
           type: string
-      required:
-        - status
+      required: [status]
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required: [message]
+
+    SubmitRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+        organization:
+          type: string
+        email:
+          type: string
+        requestType:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
+        linkedSystem:
+          type: string
+      required: [name, organization, email, requestType, subject, message]
+
+    BdsRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        organization:
+          type: string
+        email:
+          type: string
+        requestType:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
+        linkedSystem:
+          type: string
+        status:
+          type: string
+        internalNotes:
+          type: ["string", "null"]
+        packetSent:
+          type: boolean
+        packetSentAt:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required: [id, name, organization, email, requestType, subject, message, linkedSystem, status, packetSent, createdAt, updatedAt]
+
+    ActionHistoryEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+        requestId:
+          type: string
+        action:
+          type: string
+        actor:
+          type: string
+        note:
+          type: ["string", "null"]
+        timestamp:
+          type: string
+      required: [id, requestId, action, actor, timestamp]
+
+    BdsRequestDetail:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        organization:
+          type: string
+        email:
+          type: string
+        requestType:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
+        linkedSystem:
+          type: string
+        status:
+          type: string
+        internalNotes:
+          type: ["string", "null"]
+        packetSent:
+          type: boolean
+        packetSentAt:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        history:
+          type: array
+          items:
+            $ref: "#/components/schemas/ActionHistoryEntry"
+      required: [id, name, organization, email, requestType, subject, message, linkedSystem, status, packetSent, createdAt, updatedAt, history]
+
+    LoginBody:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required: [username, password]
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        authenticated:
+          type: boolean
+      required: [token, authenticated]
+
+    SessionStatus:
+      type: object
+      properties:
+        authenticated:
+          type: boolean
+      required: [authenticated]
+
+    UpdateStatusBody:
+      type: object
+      properties:
+        status:
+          type: string
+        note:
+          type: string
+      required: [status]
+
+    UpdateNotesBody:
+      type: object
+      properties:
+        internalNotes:
+          type: string
+      required: [internalNotes]
+
+    SystemLogEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+        event:
+          type: string
+        details:
+          type: ["string", "null"]
+        timestamp:
+          type: string
+      required: [id, event, timestamp]

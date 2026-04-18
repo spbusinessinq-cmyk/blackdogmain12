@@ -13,10 +13,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
+import { useSubmitRequest } from '@workspace/api-client-react';
 
 const formSchema = z.object({
   name: z.string().min(2, "Identifier required"),
   organization: z.string().min(2, "Organization required"),
+  email: z.string().email("Valid contact address required"),
+  subject: z.string().min(4, "Subject required"),
   requestType: z.string().min(1, "Select request classification"),
   message: z.string().min(10, "Minimum 10 characters required")
 });
@@ -290,21 +293,31 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
   const { toast } = useToast();
+  const submitRequest = useSubmitRequest();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { name: "", organization: "", requestType: "", message: "" }
+    defaultValues: { name: "", organization: "", email: "", subject: "", requestType: "", message: "" }
   });
 
-  function onSubmit(_values: z.infer<typeof formSchema>) {
-    setSubmitted(true);
-    toast({
-      title: "Request Logged",
-      description: "Your submission has been received and queued for secure review.",
-      duration: 5000,
-    });
-    form.reset();
-    setTimeout(() => setSubmitted(false), 6000);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      await submitRequest.mutateAsync({ data: { ...values, linkedSystem: "General" } });
+      setSubmitted(true);
+      toast({
+        title: "Request Logged",
+        description: "Your submission has been received and queued for secure review.",
+        duration: 5000,
+      });
+      form.reset();
+      setTimeout(() => setSubmitted(false), 6000);
+    } catch {
+      toast({
+        title: "Submission Failed",
+        description: "An error occurred. Please try again.",
+        duration: 5000,
+      });
+    }
   }
 
   const scrollTo = (id: string) => {
@@ -763,6 +776,48 @@ export default function Home() {
                       />
                     </div>
 
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-white/50 font-mono text-[10px] uppercase tracking-widest">
+                              Contact Address
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                type="email"
+                                placeholder="secure@domain.com"
+                                className="tactical-input bg-black/50 border-white/10 font-mono text-xs h-10 rounded-sm focus:border-primary/40 focus:ring-0 text-white placeholder:text-white/20"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage className="text-primary text-[10px] font-mono" />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="subject"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-white/50 font-mono text-[10px] uppercase tracking-widest">
+                              Subject
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Brief subject line"
+                                className="tactical-input bg-black/50 border-white/10 font-mono text-xs h-10 rounded-sm focus:border-primary/40 focus:ring-0 text-white placeholder:text-white/20"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage className="text-primary text-[10px] font-mono" />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
                     <FormField
                       control={form.control}
                       name="requestType"
@@ -811,9 +866,10 @@ export default function Home() {
 
                     <Button
                       type="submit"
-                      className="w-full bg-primary hover:bg-primary/85 text-primary-foreground font-mono text-[10px] tracking-[0.2em] uppercase h-11 rounded-sm transition-all hover:shadow-[0_0_18px_rgba(150,45,65,0.2)]"
+                      disabled={submitRequest.isPending}
+                      className="w-full bg-primary hover:bg-primary/85 disabled:opacity-60 text-primary-foreground font-mono text-[10px] tracking-[0.2em] uppercase h-11 rounded-sm transition-all hover:shadow-[0_0_18px_rgba(150,45,65,0.2)]"
                     >
-                      Initiate Secure Request
+                      {submitRequest.isPending ? "Transmitting..." : "Initiate Secure Request"}
                     </Button>
                   </form>
                 </Form>

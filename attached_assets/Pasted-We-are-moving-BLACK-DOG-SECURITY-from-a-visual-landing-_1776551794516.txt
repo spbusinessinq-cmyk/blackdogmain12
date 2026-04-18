@@ -1,0 +1,381 @@
+We are moving BLACK DOG SECURITY from a visual landing page into a live operational site.
+
+DO NOT redesign the existing visual identity.
+DO NOT replace the current polished site.
+BUILD ON TOP OF THE CURRENT SITE.
+
+This is the next major pass:
+BLACK DOG must now support a real intake + review + approval workflow.
+
+==================================================
+PRIMARY OBJECTIVE
+==================================================
+
+Turn the site into a working two-layer system:
+
+LAYER 1 — PUBLIC SITE
+- public-facing BLACK DOG SECURITY site
+- request form for access / briefing / inquiry
+- secure, professional, serious
+
+LAYER 2 — PRIVATE COMMANDER CENTER
+- separate admin-only review area
+- login gate
+- request review queue
+- approve / deny / request more info
+- send prebuilt info packet when approved
+
+This must remain compatible with EdgeOne deployment and should be lightweight, organized, and production-safe.
+
+==================================================
+IMPORTANT SECURITY RULE
+==================================================
+
+DO NOT hardcode admin credentials directly into the client-side frontend bundle.
+
+Use server-side or environment-based credential handling for the protected commander area.
+
+For local/dev testing only, support this temporary admin login:
+- username: rsr-admin
+- password: 4451
+
+But implement it in a way that is NOT plainly exposed in public frontend code.
+
+Use environment variables or a simple protected backend check if possible.
+
+==================================================
+HIGH-LEVEL ARCHITECTURE
+==================================================
+
+Keep the current public site.
+
+Add:
+1. secure request submission flow
+2. persistent request storage
+3. private commander dashboard
+4. approval actions
+5. packet dispatch workflow
+6. simple audit trail
+
+Preferred architecture:
+- React + Vite frontend
+- Tailwind CSS
+- existing design language preserved
+- lightweight backend routes compatible with EdgeOne / serverless deployment
+- use Supabase if already available in the project
+OR
+- use a simple EdgeOne-friendly API layer / local JSON mock service abstraction if needed
+- structure code so it can later be swapped to a real database/email system easily
+
+The key is:
+BUILD IT CLEANLY
+BUILD IT REALISTICALLY
+BUILD IT SO IT CAN GO LIVE
+
+==================================================
+PUBLIC REQUEST SYSTEM
+==================================================
+
+Upgrade the current access/request form into a working intake system.
+
+Form should collect:
+- full name / callsign
+- organization / affiliation
+- email
+- request type
+- subject
+- message / justification
+- optional linked system interest (RSR Intel / AXION / SENTRIX / BLACK DOG / General)
+- timestamp
+- generated request ID
+
+On submit:
+- validate fields
+- save the request as PENDING
+- show clean confirmation state
+- generate a request ID like:
+  BDS-REQ-0001
+- display clear review notice:
+  “Your request has been logged for internal review.”
+
+Do not make it look generic.
+Keep it in the BLACK DOG design language.
+
+==================================================
+COMMANDER CENTER
+==================================================
+
+Create a separate protected admin area.
+
+Suggested route:
+- /commander
+or
+- /command-center
+or
+- /review
+
+This area should NOT be openly advertised in the main navigation.
+
+COMMANDER CENTER REQUIREMENTS:
+- admin login page
+- protected dashboard after authentication
+- list of all submitted requests
+- request detail view
+- status controls:
+  - Pending
+  - Approved
+  - More Info Requested
+  - Denied
+- search/filter controls
+- ability to click and inspect full request
+- clean review UI with glassy hardened BLACK DOG styling
+
+Dashboard sections:
+1. Pending Requests
+2. Approved Requests
+3. More Info Requested
+4. Denied Requests
+5. Packet Log / Dispatch Log
+
+Each request card/row should show:
+- request ID
+- name
+- organization
+- request type
+- linked system
+- submitted date/time
+- current status
+
+==================================================
+REVIEW ACTIONS
+==================================================
+
+Inside the Commander Center, for each request, add actions:
+
+1. APPROVE
+- marks request as approved
+- opens packet dispatch options
+- logs approval timestamp
+
+2. REQUEST MORE INFO
+- marks request as more-info-requested
+- uses a prewritten response template
+- logs timestamp
+
+3. DENY
+- marks request as denied
+- optionally add a short internal note
+- logs timestamp
+
+4. VIEW HISTORY
+- show audit history of actions taken on this request
+
+Add a private internal notes area on each request, visible only in Commander Center.
+
+==================================================
+INFO PACKET SYSTEM
+==================================================
+
+We need a premade info packet that can be sent after approval.
+
+Build a simple “Information Packet” system.
+
+This should include:
+- a prewritten BLACK DOG response packet template
+- a dispatch action from the Commander Center
+- a packet preview page or modal
+- a packet sent log
+
+Create one polished default info packet template for now.
+
+The packet should feel like:
+- professional
+- restricted but public-safe
+- serious
+- internal network briefing material
+
+SUGGESTED PACKET CONTENT:
+- BLACK DOG SECURITY overview
+- mission and role in RSR ecosystem
+- capabilities summary
+- operating posture
+- connection to RSR Intel / AXION / SENTRIX
+- next-step instructions
+- controlled-access language
+- review / follow-up note
+
+This can exist in one or more of these forms:
+- HTML packet preview
+- downloadable print-style page
+- text/email template
+- PDF-ready content structure
+
+At minimum implement:
+- packet template data file
+- preview UI
+- “Send Packet” action in Commander Center
+- packet log entry when sent
+
+If real email sending is not yet wired:
+- implement the full send workflow abstraction cleanly
+- log dispatch as a system event
+- leave a clear stub/service layer for actual email integration later
+
+==================================================
+PREWRITTEN RESPONSE TEMPLATES
+==================================================
+
+Create reusable templates for:
+
+1. APPROVED RESPONSE
+- professional approval message
+- includes packet dispatch language
+
+2. MORE INFO REQUEST
+- asks for additional detail
+- controlled, formal tone
+
+3. DENIED RESPONSE
+- short, professional, non-inflammatory
+
+These should be accessible inside the Commander Center when taking action.
+
+==================================================
+DATA MODEL
+==================================================
+
+Create a clean data structure for requests.
+
+Each request should include fields like:
+- id
+- name
+- organization
+- email
+- requestType
+- subject
+- message
+- linkedSystem
+- status
+- createdAt
+- updatedAt
+- internalNotes
+- actionHistory[]
+- packetSent
+- packetSentAt
+
+Each history entry should include:
+- timestamp
+- action
+- actor
+- note
+
+Use “rsr-admin” as the actor for local/dev actions if needed.
+
+==================================================
+UI / VISUAL REQUIREMENTS
+==================================================
+
+Preserve the upgraded BLACK DOG styling.
+
+Commander Center should feel like:
+- restricted command interface
+- internal review board
+- hardened executive control surface
+
+Visual guidance:
+- same obsidian / gunmetal / steel / crimson palette
+- same glass treatment
+- denser and more tactical than public pages
+- clear hierarchy
+- sharper data presentation
+- subtle status color coding
+- no dashboard clutter
+- no fake military cringe
+- no cartoon admin UI
+
+The Commander Center should feel connected to the public site,
+but clearly more restricted and internal.
+
+==================================================
+STATUS / LOGGING
+==================================================
+
+Add a lightweight system log area in Commander Center.
+
+Log entries like:
+- request submitted
+- request approved
+- more info requested
+- request denied
+- packet dispatched
+- login success
+- login failure
+
+This can be simple but should look intentional.
+
+==================================================
+EDGEONE / DEPLOYMENT REQUIREMENTS
+==================================================
+
+This must remain easy to deploy on EdgeOne.
+
+Requirements:
+- no heavy server dependency
+- keep backend logic modular
+- if using Supabase, keep it clean and environment-driven
+- if using local mock persistence first, isolate it behind a service layer so it can later be swapped to a real backend
+- no credentials exposed in client bundle
+- no fragile architecture
+
+If email sending is not fully implemented, build a clean email service abstraction like:
+- sendApprovalPacket()
+- sendMoreInfoRequest()
+- sendDenialResponse()
+
+These can be stubbed cleanly with logs until full provider integration is added.
+
+==================================================
+ROUTES / PAGES TO ADD
+==================================================
+
+Suggested additions:
+- /commander/login
+- /commander/dashboard
+- /commander/request/:id
+- /packet-preview/:id   OR internal modal preview
+- service modules for request storage + packet dispatch
+
+==================================================
+NON-NEGOTIABLES
+==================================================
+
+DO NOT:
+- tear apart the public site
+- downgrade the visual polish
+- build a generic bootstrap admin dashboard
+- expose raw credentials
+- leave dead buttons
+- make fake functionality
+
+DO:
+- make the request system real
+- make the commander area functional
+- make the packet workflow usable
+- keep everything clean and modular
+- prepare it to actually go live
+
+==================================================
+DELIVERABLE
+==================================================
+
+Implement the next major pass directly in the existing project:
+
+1. public request form submission flow
+2. protected Commander Center
+3. request queue + detail review
+4. approve / deny / more-info actions
+5. prebuilt BLACK DOG info packet system
+6. packet preview + dispatch logging
+7. clean EdgeOne-friendly code organization
+
+Return the updated implementation in-place, ready for testing and deployment.
