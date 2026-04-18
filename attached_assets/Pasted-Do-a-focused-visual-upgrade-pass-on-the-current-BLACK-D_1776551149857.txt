@@ -1,0 +1,249 @@
+Do a focused visual upgrade pass on the current BLACK DOG SECURITY site.
+
+IMPORTANT:
+- Do NOT rebuild the whole site
+- Do NOT change the site structure unless needed for layout tightening
+- Do NOT remove existing sections
+- This is a refinement pass, not a redesign from scratch
+- Keep it compatible with EdgeOne deployment
+- Keep it lightweight, production-safe, and static-deploy friendly
+
+MISSION:
+The site already looks solid, but it needs more identity, more authority, and a more aggressive command-grade visual presence.
+
+GOALS FOR THIS PASS:
+1. Make the brand feel more dangerous, serious, and high-authority
+2. Replace the softer emerald feel with a more business / tactical / executive security palette
+3. Add a strong BLACK DOG visual in the hero
+4. Make the whole page feel tighter, more composed, more “compiled”
+5. Keep the glassy premium style, but make it look less generic SaaS and more elite protective operations
+
+==================================================
+VISUAL DIRECTION
+==================================================
+
+BLACK DOG should feel like:
+- executive protection
+- internal security division
+- hard perimeter
+- high-trust / high-risk operations
+- quiet force
+- not flashy, not gamer, not cyberpunk
+
+NEW COLOR DIRECTION:
+Shift away from bright green as the main color.
+
+Use a palette closer to:
+- obsidian black
+- graphite
+- gunmetal
+- steel gray
+- cold white text
+- restrained deep crimson OR muted warning red for accents
+- optional tiny hints of desaturated teal only if needed
+
+The site should now say:
+“business”
+“security”
+“serious money”
+“internal operations”
+not “startup”
+not “generic cybersecurity template”
+
+==================================================
+HERO UPGRADE
+==================================================
+
+The hero needs a real identity anchor.
+
+Replace the current simple shield/radar icon in the hero with a custom BLACK DOG graphic.
+
+Create a bold, minimal, premium visual such as:
+- a black dog head silhouette
+- angular guard-dog crest
+- side-profile canine head
+- jaws open / chomping / biting through a ring or signal line
+- subtle hostile-protection posture
+- integrated into a crest, shield, or command emblem
+
+IMPORTANT:
+- This must stay tasteful and premium
+- No cartoon dog
+- No mascot logo
+- No clipart
+- No cheesy flame effects
+- No skulls
+- No over-detail
+
+It should feel like:
+- elite security insignia
+- covert unit branding
+- protective operations emblem
+
+Implementation:
+- Prefer SVG or clean CSS/SVG composition
+- Keep it lightweight
+- Add a faint glow / halo / radial lighting behind it
+- Let it sit above or beside the headline in a more commanding way
+
+==================================================
+LAYOUT TIGHTENING
+==================================================
+
+The current layout is good, but it needs to feel more intentional and dense.
+
+Tighten spacing across the page:
+- reduce empty dead space in the hero
+- tighten section spacing slightly
+- make content blocks feel more locked in
+- improve vertical rhythm
+- make cards feel more deliberate and less like generic dashboard boxes
+
+Refine:
+- better max-width control
+- slightly stronger section hierarchy
+- more balanced spacing between headers and cards
+- more premium alignment overall
+
+==================================================
+GLASS / PANEL REFINEMENT
+==================================================
+
+Keep the glassy look, but make it more tactical.
+
+Update panels/cards so they feel:
+- denser
+- darker
+- more layered
+- more expensive
+- more hardened
+
+Adjust cards/panels with:
+- darker translucent fills
+- sharper inner shadows
+- thin steel borders
+- subtle top highlight
+- faint background blur
+- slightly stronger hover states
+- less “soft teal glow”
+- more “contained pressure”
+
+Do NOT over-glow anything.
+
+==================================================
+TYPOGRAPHY / TEXT
+==================================================
+
+Improve text clarity and presence:
+- make body copy brighter and easier to read
+- increase contrast
+- keep headlines crisp and bold
+- keep labels clean and tactical
+- preserve minimalism
+
+The page should feel more like:
+- intelligence/security command interface
+than
+- modern startup landing page
+
+==================================================
+STATUS PANEL UPGRADE
+==================================================
+
+Keep the existing security posture section, but make it look more premium.
+
+Refine it into something that feels like:
+- a hardened internal status board
+- a serious security command readout
+- high-level posture summary
+
+Potential refinements:
+- slightly stronger right-column status treatment
+- better row separators
+- cleaner alignment
+- more intentional status dots
+- subtle panel depth
+- small micro-labels / metadata styling
+
+==================================================
+NETWORK SECTION UPGRADE
+==================================================
+
+Keep the ecosystem section, but make it feel more integrated and less flat.
+
+Refine the relationship tiles so they look like:
+- network nodes
+- secure internal divisions
+- linked system entities
+
+Possible improvements:
+- subtle connector lines or implied relationships
+- more consistent tile sizing
+- stronger emphasis on BLACK DOG as the active protective layer
+- more premium badge styling
+
+==================================================
+ACCESS FORM UPGRADE
+==================================================
+
+Keep the request access section, but make it feel more secure and formal.
+
+Make it look like:
+- restricted intake
+- internal review request
+- controlled access channel
+
+Refine:
+- input styling
+- labels
+- spacing
+- select appearance
+- button styling
+- microcopy beneath form
+
+Button should feel less generic.
+Make it feel like a real secure submission action.
+
+==================================================
+MOTION
+==================================================
+
+Keep motion subtle only:
+- slight fade / rise on load
+- soft hover response
+- maybe one faint pulse in the hero or status area
+- no heavy animation
+- no animated backgrounds that hurt performance
+
+==================================================
+TECH / DEPLOYMENT REQUIREMENTS
+==================================================
+
+This must remain EdgeOne-friendly:
+- Vite + React compatible
+- no server dependency for visuals
+- no heavy external animation libraries beyond what already exists
+- no giant image assets unless optimized
+- prefer SVG / CSS shapes
+- keep code clean and deploy-safe
+
+==================================================
+FINAL EXECUTION RULES
+==================================================
+
+Do NOT:
+- blow up the layout
+- make it flashy
+- make it look like gaming/esports branding
+- make it cartoonish
+- flood the site with red
+- add fake “live” claims
+
+DO:
+- make it feel like an elite protective security division
+- make the black dog emblem memorable
+- make the palette more serious
+- make the glass panels feel harder and more premium
+- keep the site clean, minimal, and interconnected with the rest of the RSR network
+
+Deliver the updated React/Tailwind implementation directly in the existing project structure.

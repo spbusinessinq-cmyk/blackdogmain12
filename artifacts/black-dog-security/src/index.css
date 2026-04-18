@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -29,60 +29,59 @@
   --color-destructive-foreground: hsl(var(--destructive-foreground));
 
   --font-sans: 'Inter', sans-serif;
-  --font-mono: 'Space Grotesk', monospace;
+  --font-mono: 'IBM Plex Mono', 'Space Grotesk', monospace;
   --font-heading: 'Space Grotesk', sans-serif;
 }
 
 :root {
-  --background: 220 13% 4%; /* #0a0b0d */
-  --foreground: 210 40% 98%; /* #f8fafc */
+  /* Deep obsidian base */
+  --background: 220 16% 4%;
+  --foreground: 215 25% 93%;
 
-  --border: 215 14% 34% / 0.15; /* steel-gray */
-  --card: 220 13% 8% / 0.6; /* semi-transparent */
-  --card-foreground: 210 40% 98%;
-  --card-border: 215 14% 34% / 0.2;
+  /* Steel-gray borders, more visible */
+  --border: 215 12% 28% / 0.22;
+  --input: 215 12% 28% / 0.22;
 
-  --primary: 160 84% 39%; /* emerald-500 */
-  --primary-foreground: 0 0% 100%;
+  /* Darker, more opaque glass panels */
+  --card: 218 18% 6% / 0.82;
+  --card-foreground: 215 25% 93%;
+  --card-border: 215 12% 32% / 0.25;
 
-  --muted: 215 14% 14%;
-  --muted-foreground: 215 20% 65%; /* slate-300 */
+  /* Deep muted crimson — executive authority, not alarm */
+  --primary: 350 46% 46%;
+  --primary-foreground: 0 0% 97%;
 
-  --accent: 160 84% 39%;
-  --accent-foreground: 0 0% 100%;
+  /* Graphite muted layer */
+  --muted: 218 16% 10%;
+  --muted-foreground: 215 18% 68%;
 
-  --destructive: 0 62% 30%;
-  --destructive-foreground: 0 0% 100%;
-  
-  --input: 215 14% 34% / 0.15;
-  --ring: 160 84% 39%;
+  --accent: 350 46% 46%;
+  --accent-foreground: 0 0% 97%;
 
-  --radius: 0.25rem;
+  --destructive: 0 55% 35%;
+  --destructive-foreground: 0 0% 97%;
+
+  --ring: 350 46% 46%;
+  --radius: 0.2rem;
 }
 
 .dark {
-  --background: 220 13% 4%;
-  --foreground: 210 40% 98%;
-
-  --border: 215 14% 34% / 0.15;
-  --card: 220 13% 8% / 0.6;
-  --card-foreground: 210 40% 98%;
-  --card-border: 215 14% 34% / 0.2;
-
-  --primary: 160 84% 39%;
-  --primary-foreground: 0 0% 100%;
-
-  --muted: 215 14% 14%;
-  --muted-foreground: 215 20% 65%;
-
-  --accent: 160 84% 39%;
-  --accent-foreground: 0 0% 100%;
-
-  --destructive: 0 62% 30%;
-  --destructive-foreground: 0 0% 100%;
-
-  --input: 215 14% 34% / 0.15;
-  --ring: 160 84% 39%;
+  --background: 220 16% 4%;
+  --foreground: 215 25% 93%;
+  --border: 215 12% 28% / 0.22;
+  --input: 215 12% 28% / 0.22;
+  --card: 218 18% 6% / 0.82;
+  --card-foreground: 215 25% 93%;
+  --card-border: 215 12% 32% / 0.25;
+  --primary: 350 46% 46%;
+  --primary-foreground: 0 0% 97%;
+  --muted: 218 16% 10%;
+  --muted-foreground: 215 18% 68%;
+  --accent: 350 46% 46%;
+  --accent-foreground: 0 0% 97%;
+  --destructive: 0 55% 35%;
+  --destructive-foreground: 0 0% 97%;
+  --ring: 350 46% 46%;
 }
 
 @layer base {
@@ -93,30 +92,44 @@
   body {
     @apply font-sans antialiased bg-background text-foreground;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.02em;
+  }
 }
 
+/* Background grid — slightly more visible */
 .bg-grid {
-  background-size: 40px 40px;
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
 }
 
+/* Subtle scanline */
 .bg-scanline {
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0) 50%,
-    rgba(0, 0, 0, 0.1) 50%,
-    rgba(0, 0, 0, 0.1)
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
   );
-  background-size: 100% 4px;
 }
 
+/* Glass panel — darker, harder, more layered */
 .glass-panel {
   @apply bg-card backdrop-blur-md border border-card-border relative overflow-hidden;
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02), 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    inset 1px 0 0 rgba(255, 255, 255, 0.03),
+    0 4px 24px rgba(0, 0, 0, 0.45),
+    0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* The top highlight stripe */
 .glass-panel::before {
   content: '';
   position: absolute;
@@ -124,18 +137,95 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background: linear-gradient(90deg, transparent 5%, rgba(255, 255, 255, 0.09) 40%, rgba(255, 255, 255, 0.09) 60%, transparent 95%);
+  pointer-events: none;
+}
+
+/* Card hover upgrade */
+.glass-panel.card-hover {
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.glass-panel.card-hover:hover {
+  transform: translateY(-3px);
+  border-color: rgba(160, 55, 75, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    0 8px 32px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(160, 55, 75, 0.12);
+}
+
+/* Active network node */
+.glass-panel.node-active {
+  border-color: rgba(150, 45, 65, 0.45) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    0 4px 24px rgba(0, 0, 0, 0.55),
+    0 0 20px rgba(150, 45, 65, 0.10),
+    0 0 0 1px rgba(150, 45, 65, 0.15);
+}
+
+/* Posture status rows */
+.status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.status-row:last-child {
+  border-bottom: none;
+}
+
+/* Pulse animation for live indicator */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(160, 50, 70, 0.4); }
+  50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(160, 50, 70, 0); }
 }
 
 .pulse-dot {
-  animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: pulse-dot 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-@keyframes pulse-dot {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: .5;
-  }
+/* Steel indicator dots (inactive/stable status) */
+@keyframes gentle-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.steel-dot {
+  animation: gentle-pulse 3s ease-in-out infinite;
+}
+
+/* Section eyebrow label */
+.section-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: hsl(var(--primary));
+  opacity: 0.85;
+}
+
+/* Form input overrides */
+.tactical-input {
+  background: rgba(10, 11, 14, 0.7) !important;
+  border-color: rgba(180, 185, 200, 0.15) !important;
+  color: hsl(var(--foreground)) !important;
+  font-family: 'IBM Plex Mono', monospace !important;
+  font-size: 0.82rem !important;
+}
+
+.tactical-input:focus {
+  border-color: rgba(160, 50, 70, 0.4) !important;
+  box-shadow: 0 0 0 1px rgba(160, 50, 70, 0.15) !important;
+}
+
+/* Subtle hero gradient overlay */
+.hero-vignette {
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(150, 40, 60, 0.04) 0%, transparent 70%),
+              radial-gradient(ellipse 100% 80% at 50% 100%, rgba(0,0,0,0.5) 0%, transparent 60%);
 }
