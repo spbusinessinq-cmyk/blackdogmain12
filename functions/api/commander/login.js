@@ -2,9 +2,9 @@
  * EdgeOne / Cloudflare Pages Edge Function
  * POST /api/commander/login
  *
- * Validates ADMIN_USERNAME / ADMIN_PASSWORD env vars and returns a
- * stateless HMAC-SHA256-signed token.  No database or in-memory store
- * required — the signature is verified on every subsequent request.
+ * Two modes:
+ *   API_BASE_URL set   → proxy to the Express API server (full commander works)
+ *   API_BASE_URL unset → stateless HMAC-SHA256 auth (auth-only, no DB)
  */
 
 const JSON_HEADERS = { "Content-Type": "application/json" };
@@ -35,12 +35,20 @@ async function hmacSign(payload, secret) {
 export async function onRequestPost(context) {
   const { request, env } = context;
 
+  // When a real API server is configured, proxy the login there so that
+  // the returned token is stored in the Express in-memory store and is
+  // accepted by all other requireAuth-protected routes.
+  if (env.API_BASE_URL) {
+    const base = env.API_BASE_URL.replace(/\/$/, "");
+    return fetch(new Request(`${base}/api/commander/login`, request));
+  }
+
+  // Fallback: HMAC-signed stateless token (works without an API server;
+  // only auth routes will function — data routes need API_BASE_URL).
   let body = {};
   try {
     body = await request.json();
-  } catch {
-    /* malformed body — treat as empty */
-  }
+  } catch { /* malformed body */ }
 
   const adminUsername = env.ADMIN_USERNAME ?? "rsr-admin";
   const adminPassword = env.ADMIN_PASSWORD ?? "4451";

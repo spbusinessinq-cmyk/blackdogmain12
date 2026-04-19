@@ -2,8 +2,9 @@
  * EdgeOne / Cloudflare Pages Edge Function
  * GET /api/commander/session
  *
- * Verifies the HMAC-signed token issued by the login function.
- * Returns { authenticated: true } when the token is valid and unexpired.
+ * Two modes:
+ *   API_BASE_URL set   → proxy to the Express API server
+ *   API_BASE_URL unset → verify HMAC-signed token issued by login.js
  */
 
 const JSON_HEADERS = { "Content-Type": "application/json" };
@@ -40,8 +41,13 @@ async function hmacVerify(payload, sigB64, secret) {
 
 export async function onRequest(context) {
   const { request, env } = context;
-  const auth = request.headers.get("Authorization") ?? "";
 
+  if (env.API_BASE_URL) {
+    const base = env.API_BASE_URL.replace(/\/$/, "");
+    return fetch(new Request(`${base}/api/commander/session`, request));
+  }
+
+  const auth = request.headers.get("Authorization") ?? "";
   if (!auth.startsWith("Bearer ")) return json({ authenticated: false });
 
   const token = auth.slice(7);
