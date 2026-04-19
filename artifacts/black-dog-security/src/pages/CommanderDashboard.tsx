@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import {
@@ -31,9 +31,13 @@ export default function CommanderDashboard() {
   const [, navigate] = useLocation();
 
   const { data: requests = [], isLoading, refetch } = useListCommanderRequests(
-    { status: filterStatus || undefined, q: search || undefined },
-    { query: { refetchInterval: 15000 } }
+    { status: filterStatus || undefined, q: search || undefined }
   );
+
+  useEffect(() => {
+    const timer = setInterval(() => { void refetch(); }, 15000);
+    return () => clearInterval(timer);
+  }, [refetch]);
 
   const logoutMutation = useCommanderLogout();
 

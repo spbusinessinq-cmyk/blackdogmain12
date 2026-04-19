@@ -15,6 +15,12 @@ const router = Router();
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME ?? "rsr-admin";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "4451";
 
+/** Normalize a route param that Express 5 types as `string | string[] | undefined` to a plain string. */
+function paramStr(value: string | string[] | undefined): string | null {
+  if (!value) return null;
+  return Array.isArray(value) ? (value[0] ?? null) : value;
+}
+
 router.post("/commander/login", async (req, res) => {
   const { username, password } = req.body ?? {};
   if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
@@ -77,7 +83,8 @@ router.get("/commander/requests", requireAuth, async (req, res) => {
 });
 
 router.get("/commander/requests/:id", requireAuth, async (req, res) => {
-  const { id } = req.params;
+  const id = paramStr(req.params["id"]);
+  if (!id) { res.status(400).json({ error: "Missing request ID" }); return; }
 
   const [request] = await db
     .select()
@@ -99,7 +106,8 @@ router.get("/commander/requests/:id", requireAuth, async (req, res) => {
 });
 
 router.patch("/commander/requests/:id/status", requireAuth, async (req, res) => {
-  const { id } = req.params;
+  const id = paramStr(req.params["id"]);
+  if (!id) { res.status(400).json({ error: "Missing request ID" }); return; }
   const { status, note } = req.body ?? {};
 
   if (!status) {
@@ -139,7 +147,8 @@ router.patch("/commander/requests/:id/status", requireAuth, async (req, res) => 
 });
 
 router.patch("/commander/requests/:id/notes", requireAuth, async (req, res) => {
-  const { id } = req.params;
+  const id = paramStr(req.params["id"]);
+  if (!id) { res.status(400).json({ error: "Missing request ID" }); return; }
   const { internalNotes } = req.body ?? {};
 
   const [updated] = await db
@@ -164,7 +173,8 @@ router.patch("/commander/requests/:id/notes", requireAuth, async (req, res) => {
 });
 
 router.post("/commander/requests/:id/dispatch", requireAuth, async (req, res) => {
-  const { id } = req.params;
+  const id = paramStr(req.params["id"]);
+  if (!id) { res.status(400).json({ error: "Missing request ID" }); return; }
 
   const [existing] = await db
     .select()

@@ -57,9 +57,7 @@ export default function CommanderRequestDetail() {
   const [showPacketPreview, setShowPacketPreview] = useState(false);
   const [templateKey, setTemplateKey] = useState<keyof typeof RESPONSE_TEMPLATES | "">("");
 
-  const { data: request, isLoading, refetch } = useGetCommanderRequest(id!, {
-    query: { enabled: !!id },
-  });
+  const { data: request, isLoading, refetch } = useGetCommanderRequest(id!);
 
   useEffect(() => {
     if (request) setNotes(request.internalNotes ?? "");
