@@ -1,0 +1,38 @@
+# Version control
+.git
+.gitignore
+
+# All dependency directories — installed fresh inside container
+**/node_modules
+
+# Build output — rebuilt inside container
+**/dist
+**/.expo
+**/.expo-shared
+
+# Dev / Replit environment
+.local/
+.cache/
+.upm/
+.replit
+replit.nix
+.cursor/
+
+# Test / docs / assets not needed for build
+screenshots/
+attached_assets/
+
+# Environment files — never bake into image
+.env
+.env.*
+
+# Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# TypeScript incremental build cache
+**/*.tsbuildinfo

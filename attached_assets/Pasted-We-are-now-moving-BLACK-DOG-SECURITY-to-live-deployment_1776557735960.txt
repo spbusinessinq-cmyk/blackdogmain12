@@ -1,0 +1,96 @@
+We are now moving BLACK DOG SECURITY to live deployment through Portainer.
+
+Do NOT redesign the app.
+Do NOT change the current visual identity.
+Do NOT alter the Commander Center workflow unless required for deployment readiness.
+
+MISSION:
+Prepare this project for clean Docker / Portainer deployment.
+
+CURRENT REQUIREMENTS:
+- public BLACK DOG site
+- working /commander/login route
+- working /commander/dashboard route
+- SPA routing must work in production
+- admin login must be environment-based
+- ready to deploy via Portainer stack or container
+
+DEPLOYMENT TARGET:
+Portainer
+
+NEEDED IN THIS PASS:
+
+1. DOCKERIZE THE APP
+Create:
+- Dockerfile
+- .dockerignore
+- nginx.conf if needed
+- optional docker-compose.yml for Portainer stack deployment
+
+2. SPA ROUTING SUPPORT
+This is critical.
+Because this is a Vite/React app with routes like:
+- /commander/login
+- /commander/dashboard
+
+Production server must support SPA fallback routing.
+
+If using nginx, configure:
+- static asset serving
+- try_files $uri /index.html;
+
+Without this, commander routes will fail on refresh/direct access.
+
+3. ENV-BASED ADMIN AUTH
+Do NOT hardcode credentials in public frontend code.
+
+Support environment variables such as:
+- BDS_ADMIN_USER=rsr-admin
+- BDS_ADMIN_PASS=4451
+
+If the current auth flow is client-only, move the sensitive check into a server-safe pattern or a deployment-safe environment-backed mechanism as much as possible within this architecture.
+
+If a backend/API layer already exists, use it.
+If not, create the cleanest deployment-safe abstraction possible and clearly identify any security limitation.
+
+4. PRODUCTION CONFIG
+Make the build and container production-ready:
+- install deps cleanly
+- build the app
+- serve built app from container
+- expose correct port
+- no dev server required in production
+
+5. PORTAINER-READY STACK
+Provide a clean docker-compose.yml suitable for Portainer.
+
+Need:
+- service name
+- restart unless-stopped
+- port mapping
+- environment variables
+- container name
+- optional volume only if actually needed
+
+6. OUTPUT / DELIVERABLES
+Return:
+- Dockerfile
+- nginx.conf
+- docker-compose.yml
+- exact Portainer deployment steps
+- exact env vars I need to set
+- exact exposed port
+- note whether any DB/auth/email dependency still needs separate setup
+
+7. IMPORTANT
+Do NOT leave commander routes broken in production.
+Do NOT assume root-only routing.
+Do NOT leave admin credentials exposed in plain frontend constants.
+
+FINAL GOAL:
+I should be able to push this repo to GitHub, pull it into Portainer, set env vars, deploy, and have:
+- public site live
+- /commander/login live
+- /commander/dashboard live
+- footer Operator Access working
+- SPA routing working on refresh and direct access

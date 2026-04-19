@@ -62,6 +62,37 @@ New requests are inserted first to get the auto-generated `seq_num`, then immedi
 - Fonts: Inter (body), Space Grotesk (headings), IBM Plex Mono (labels)
 - No emojis in UI
 
+## Docker / Portainer Deployment
+
+Five files added at the repo root:
+- `Dockerfile.api` — builds + runs the Express API (self-contained esbuild bundle, `node:24-slim` runtime)
+- `Dockerfile.frontend` — builds Vite SPA + serves via `nginx:1.27-alpine` with SPA fallback and `/api/*` proxy
+- `docker/nginx.conf` — nginx: `try_files` SPA fallback, `/api/` proxy to `http://api:3001`, 1-year asset caching
+- `docker-compose.yml` — Portainer stack: db + api + frontend + migrate (profile)
+- `.dockerignore` — excludes node_modules, dist, .git, .env, Replit files
+
+**Required env vars:**
+| Var | Required | Default | Notes |
+|---|---|---|---|
+| `ADMIN_PASSWORD` | Yes | none | Commander Center password |
+| `DB_PASSWORD` | Yes | none | PostgreSQL password |
+| `ADMIN_USERNAME` | No | `rsr-admin` | Commander Center username |
+| `DB_USER` | No | `blackdog` | PostgreSQL user |
+| `HOST_PORT` | No | `80` | Host port for public site |
+
+**First-time deploy sequence:**
+```bash
+# 1. Run DB migrations (once, before the full stack)
+docker compose --profile migrate run --rm migrate
+
+# 2. Start all services
+docker compose up -d
+```
+
+**Build validation:** Both production builds confirmed clean locally:
+- `PORT=3000 BASE_PATH=/ NODE_ENV=production pnpm --filter @workspace/black-dog-security run build` → `dist/public/` ✓
+- `pnpm --filter @workspace/api-server run build` → self-contained `dist/index.mjs` ✓
+
 ## Key Commands
 
 - `pnpm run typecheck` — full typecheck across all packages

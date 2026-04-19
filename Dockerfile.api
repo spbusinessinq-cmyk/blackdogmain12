@@ -1,0 +1,55 @@
+# ==============================================================================
+# BLACK DOG SECURITY — API Server
+# ==============================================================================
+# Two-stage build:
+#   builder  — installs deps, type-checks libs, bundles the Express app with esbuild
+#   production — slim Node.js image running only the self-contained bundle
+#
+# The esbuild output inlines ALL workspace dependencies, so the production image
+# needs nothing except the Node.js runtime and the dist/ directory.
+# ==============================================================================
+
+# ── Stage 1: Builder ──────────────────────────────────────────────────────────
+FROM node:24 AS builder
+
+WORKDIR /app
+
+# Install pnpm (exact version matching the development environment)
+RUN npm install -g pnpm@10.26.1
+
+# Copy workspace manifest files first (layer-cached until they change)
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+
+# Copy all workspace packages — pnpm --frozen-lockfile requires every package
+# declared in pnpm-workspace.yaml to be present.
+COPY lib/        ./lib/
+COPY scripts/    ./scripts/
+COPY artifacts/api-server/       ./artifacts/api-server/
+COPY artifacts/black-dog-security/ ./artifacts/black-dog-security/
+COPY artifacts/mockup-sandbox/   ./artifacts/mockup-sandbox/
+
+# Install all workspace dependencies from the lockfile (no network resolution)
+RUN pnpm install --frozen-lockfile
+
+# Build TypeScript project references (lib packages are source-only;
+# tsc --build compiles them so downstream packages can import them)
+RUN pnpm run typecheck:libs
+
+# Bundle the API server into a single self-contained ESM file
+RUN pnpm --filter @workspace/api-server run build
+
+
+# ── Stage 2: Production ───────────────────────────────────────────────────────
+FROM node:24-slim AS production
+
+WORKDIR /app
+
+# Copy the fully self-contained bundle (pino workers are included by esbuildPluginPino)
+COPY --from=builder /app/artifacts/api-server/dist ./dist
+
+ENV NODE_ENV=production \
+    PORT=3001
+
+EXPOSE 3001
+
+CMD ["node", "--enable-source-maps", "./dist/index.mjs"]
