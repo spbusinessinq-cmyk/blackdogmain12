@@ -913,10 +913,16 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto mt-4 pt-4 border-t border-white/[0.04] text-center">
+        <div className="max-w-6xl mx-auto mt-4 pt-4 border-t border-white/[0.04] flex items-center justify-between">
           <span className="font-mono text-[9px] text-white/15 tracking-widest">
             &copy; 2026 RSR INTELLIGENCE NETWORK. ALL RIGHTS RESERVED. // INTERNAL USE ONLY.
           </span>
+          <a
+            href="/commander/login"
+            className="font-mono text-[9px] text-white/15 hover:text-white/40 tracking-widest uppercase transition-colors duration-300 border-b border-transparent hover:border-white/20 pb-px"
+          >
+            Operator Access
+          </a>
         </div>
       </footer>
     </div>
