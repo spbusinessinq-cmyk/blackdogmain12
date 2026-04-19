@@ -331,7 +331,7 @@ export default function Home() {
 
       {/* ——— NAVBAR ——— */}
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06] bg-[hsl(220,16%,4%)]/90 backdrop-blur-xl py-3.5 px-6 md:px-12 flex justify-between items-center">
-        <div className="font-mono font-semibold tracking-[0.18em] text-sm flex items-center gap-3 text-white uppercase">
+        <div className="font-display font-semibold tracking-[0.06em] text-[11px] flex items-center gap-3 text-white uppercase">
           <svg width="18" height="18" viewBox="0 0 20 20" fill="none" className="text-primary opacity-80">
             <path d="M10 2L18 6V14L10 18L2 14V6Z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
             <circle cx="10" cy="10" r="2.5" fill="currentColor"/>
@@ -339,7 +339,7 @@ export default function Home() {
           Black Dog Security
         </div>
 
-        <nav className="hidden md:flex items-center gap-7 font-mono text-xs tracking-wider">
+        <nav className="hidden md:flex items-center gap-7 font-display text-[10px] tracking-wider">
           {['capabilities', 'posture', 'network', 'access'].map(id => (
             <button
               key={id}
@@ -367,7 +367,7 @@ export default function Home() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-[hsl(220,16%,4%)]/98 backdrop-blur-xl pt-20 px-6 flex flex-col gap-5 font-mono md:hidden border-b border-white/[0.06]">
+        <div className="fixed inset-0 z-40 bg-[hsl(220,16%,4%)]/98 backdrop-blur-xl pt-20 px-6 flex flex-col gap-5 font-display md:hidden border-b border-white/[0.06]">
           {['capabilities', 'posture', 'network', 'access'].map(id => (
             <button
               key={id}
@@ -418,15 +418,15 @@ export default function Home() {
 
             <motion.h1
               variants={fadeInUp}
-              className="text-5xl md:text-[4.5rem] font-bold tracking-[-0.03em] mb-3 text-white uppercase leading-none"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+              className="text-5xl md:text-[4.5rem] font-bold tracking-[0.02em] mb-3 text-white uppercase leading-none"
+              style={{ fontFamily: "'Orbitron', sans-serif" }}
             >
               Black Dog Security
             </motion.h1>
 
             <motion.h2
               variants={fadeInUp}
-              className="text-base md:text-lg text-white/40 font-mono tracking-[0.12em] uppercase mb-8"
+              className="text-base md:text-lg text-white/40 font-display tracking-[0.06em] uppercase mb-8"
             >
               Protective Operations for the RSR Network
             </motion.h2>
@@ -442,14 +442,14 @@ export default function Home() {
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-3 justify-center">
               <Button
                 onClick={() => scrollTo('access')}
-                className="bg-primary text-primary-foreground hover:bg-primary/85 h-11 px-8 font-mono text-xs tracking-[0.16em] uppercase rounded-sm transition-all hover:shadow-[0_0_18px_rgba(150,45,65,0.25)]"
+                className="bg-primary text-primary-foreground hover:bg-primary/85 h-11 px-8 font-display text-[10px] tracking-[0.08em] uppercase rounded-sm transition-all hover:shadow-[0_0_18px_rgba(150,45,65,0.25)]"
               >
                 Request Briefing
               </Button>
               <Button
                 asChild
                 variant="outline"
-                className="h-11 px-8 font-mono text-xs tracking-[0.16em] uppercase rounded-sm bg-white/[0.03] hover:bg-white/[0.07] border-white/10 hover:border-white/18 text-white/70 hover:text-white transition-all"
+                className="h-11 px-8 font-display text-[10px] tracking-[0.08em] uppercase rounded-sm bg-white/[0.03] hover:bg-white/[0.07] border-white/10 hover:border-white/18 text-white/70 hover:text-white transition-all"
               >
                 <a href="https://www.rsrintel.com" target="_blank" rel="noreferrer">
                   Return to RSR Intel
@@ -498,7 +498,7 @@ export default function Home() {
                       BDS-{String(i + 1).padStart(2, '0')}
                     </span>
                   </div>
-                  <h4 className="text-sm font-semibold text-white mb-2.5 tracking-wide" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  <h4 className="text-sm font-semibold text-white mb-2.5 tracking-[0.04em]" style={{ fontFamily: "'Orbitron', sans-serif" }}>
                     {item.title}
                   </h4>
                   <p className="text-white/55 text-xs leading-relaxed">{item.desc}</p>

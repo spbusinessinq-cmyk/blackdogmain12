@@ -89,7 +89,7 @@ export default function CommanderRequestDetail() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[hsl(220,16%,4%)] flex items-center justify-center">
-        <span className="font-mono text-xs text-white/30 uppercase tracking-widest animate-pulse">
+        <span className="font-display text-[10px] text-white/30 uppercase tracking-[0.1em] animate-pulse">
           Loading request...
         </span>
       </div>
@@ -99,7 +99,7 @@ export default function CommanderRequestDetail() {
   if (!request) {
     return (
       <div className="min-h-screen bg-[hsl(220,16%,4%)] flex items-center justify-center">
-        <span className="font-mono text-xs text-[hsl(350,46%,46%)] uppercase tracking-widest">
+        <span className="font-display text-[10px] text-[hsl(350,46%,46%)] uppercase tracking-[0.1em]">
           Request not found
         </span>
       </div>
@@ -129,12 +129,12 @@ export default function CommanderRequestDetail() {
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate("/commander")}
-              className="font-mono text-xs text-white/40 hover:text-white/70 uppercase tracking-widest transition-colors"
+              className="font-display text-[10px] text-white/40 hover:text-white/70 uppercase tracking-[0.1em] transition-colors"
             >
               &larr; Queue
             </button>
-            <span className="text-white/15 text-xs font-mono">|</span>
-            <span className="font-mono text-xs text-[hsl(350,46%,46%)] tracking-[0.2em] uppercase">
+            <span className="text-white/15 text-[10px] font-display">|</span>
+            <span className="font-display text-[10px] text-[hsl(350,46%,46%)] tracking-[0.1em] uppercase">
               Request Detail
             </span>
           </div>
@@ -170,13 +170,13 @@ export default function CommanderRequestDetail() {
                     ["Last Updated", new Date(request.updatedAt).toLocaleString("en-US")],
                   ].map(([label, value]) => (
                     <div key={label}>
-                      <div className="font-mono text-[10px] uppercase tracking-widest text-white/25 mb-0.5">{label}</div>
+                      <div className="font-display text-[10px] uppercase tracking-[0.1em] text-white/25 mb-0.5">{label}</div>
                       <div className="text-sm text-white/75">{value}</div>
                     </div>
                   ))}
                 </div>
                 <div className="border-t border-white/5 pt-4">
-                  <div className="font-mono text-[10px] uppercase tracking-widest text-white/25 mb-2">Message</div>
+                  <div className="font-display text-[10px] uppercase tracking-[0.1em] text-white/25 mb-2">Message</div>
                   <p className="text-sm text-white/65 leading-relaxed whitespace-pre-wrap">{request.message}</p>
                 </div>
               </motion.div>
@@ -185,22 +185,22 @@ export default function CommanderRequestDetail() {
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.07 }}
                 className="border border-white/5 bg-white/[0.02] rounded-sm p-5">
                 <div className="flex items-center justify-between mb-3">
-                  <div className="font-mono text-[10px] uppercase tracking-widest text-white/25">Internal Notes</div>
+                  <div className="font-display text-[10px] uppercase tracking-[0.1em] text-white/25">Internal Notes</div>
                   {!notesEditing ? (
                     <button
                       onClick={() => { setNotes(request.internalNotes ?? ""); setNotesEditing(true); }}
-                      className="font-mono text-[10px] uppercase tracking-widest text-white/35 hover:text-white/65 transition-colors"
+                      className="font-display text-[10px] uppercase tracking-[0.1em] text-white/35 hover:text-white/65 transition-colors"
                     >
                       Edit
                     </button>
                   ) : (
                     <div className="flex items-center gap-3">
                       <button onClick={() => setNotesEditing(false)}
-                        className="font-mono text-[10px] uppercase tracking-widest text-white/25 hover:text-white/55 transition-colors">
+                        className="font-display text-[10px] uppercase tracking-[0.1em] text-white/25 hover:text-white/55 transition-colors">
                         Cancel
                       </button>
                       <button onClick={handleSaveNotes} disabled={updateNotes.isPending}
-                        className="font-mono text-[10px] uppercase tracking-widest text-[hsl(350,46%,46%)] hover:text-[hsl(350,46%,60%)] transition-colors">
+                        className="font-display text-[10px] uppercase tracking-[0.1em] text-[hsl(350,46%,46%)] hover:text-[hsl(350,46%,60%)] transition-colors">
                         {updateNotes.isPending ? "Saving..." : "Save"}
                       </button>
                     </div>
@@ -220,7 +220,7 @@ export default function CommanderRequestDetail() {
               {/* Action history */}
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.14 }}
                 className="border border-white/5 bg-white/[0.02] rounded-sm p-5">
-                <div className="font-mono text-[10px] uppercase tracking-widest text-white/25 mb-3">
+                <div className="font-display text-[10px] uppercase tracking-[0.1em] text-white/25 mb-3">
                   Audit Trail
                 </div>
                 {request.history.length === 0 ? (
@@ -254,7 +254,7 @@ export default function CommanderRequestDetail() {
               {/* Status actions */}
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
                 className="border border-white/5 bg-white/[0.02] rounded-sm p-5">
-                <div className="font-mono text-[10px] uppercase tracking-widest text-white/25 mb-3">Review Actions</div>
+                <div className="font-display text-[10px] uppercase tracking-[0.1em] text-white/25 mb-3">Review Actions</div>
                 <div className="space-y-1.5 mb-4">
                   {STATUSES.map((s) => {
                     const meta = STATUS_META[s];
@@ -262,7 +262,7 @@ export default function CommanderRequestDetail() {
                     return (
                       <button key={s} onClick={() => !isCurrent && handleStatusChange(s)}
                         disabled={isCurrent || updateStatus.isPending}
-                        className={`w-full text-left border rounded-sm px-3 py-2.5 font-mono text-xs transition-all ${
+                        className={`w-full text-left border rounded-sm px-3 py-2.5 font-display text-[10px] transition-all ${
                           isCurrent
                             ? `${meta.cls} cursor-default`
                             : "border-white/10 text-white/30 hover:border-white/25 hover:text-white/65 cursor-pointer"
@@ -275,7 +275,7 @@ export default function CommanderRequestDetail() {
 
                 {/* Response templates */}
                 <div className="border-t border-white/5 pt-3 mb-3">
-                  <div className="font-mono text-[10px] uppercase tracking-widest text-white/20 mb-2">Response Template</div>
+                  <div className="font-display text-[10px] uppercase tracking-[0.1em] text-white/20 mb-2">Response Template</div>
                   <select
                     value={templateKey}
                     onChange={(e) => {
@@ -302,7 +302,7 @@ export default function CommanderRequestDetail() {
               {/* Packet system */}
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
                 className="border border-[hsl(350,46%,46%)]/20 bg-[hsl(350,46%,46%)]/[0.03] rounded-sm p-5">
-                <div className="font-mono text-[10px] uppercase tracking-widest text-[hsl(350,46%,46%)]/60 mb-2">
+                <div className="font-display text-[10px] uppercase tracking-[0.1em] text-[hsl(350,46%,46%)]/60 mb-2">
                   Information Packet
                 </div>
                 <p className="text-xs text-white/35 font-mono mb-4 leading-relaxed">
@@ -318,14 +318,14 @@ export default function CommanderRequestDetail() {
                 </p>
                 <button
                   onClick={() => setShowPacketPreview(true)}
-                  className="w-full border border-white/15 hover:border-white/30 text-white/50 hover:text-white/80 font-mono text-[10px] uppercase tracking-widest py-2 rounded-sm transition-colors mb-2"
+                  className="w-full border border-white/15 hover:border-white/30 text-white/50 hover:text-white/80 font-display text-[10px] uppercase tracking-[0.1em] py-2 rounded-sm transition-colors mb-2"
                 >
                   Preview Packet
                 </button>
                 <button
                   onClick={handleDispatch}
                   disabled={request.packetSent || dispatch.isPending}
-                  className="w-full bg-[hsl(350,46%,46%)] hover:bg-[hsl(350,46%,52%)] disabled:opacity-40 disabled:cursor-not-allowed text-white font-mono text-[10px] uppercase tracking-widest py-2.5 rounded-sm transition-colors"
+                  className="w-full bg-[hsl(350,46%,46%)] hover:bg-[hsl(350,46%,52%)] disabled:opacity-40 disabled:cursor-not-allowed text-white font-display text-[10px] uppercase tracking-[0.1em] py-2.5 rounded-sm transition-colors"
                 >
                   {request.packetSent ? "Packet Sent" : dispatch.isPending ? "Dispatching..." : "Send Packet"}
                 </button>

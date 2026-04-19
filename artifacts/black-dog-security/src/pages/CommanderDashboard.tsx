@@ -71,12 +71,12 @@ export default function CommanderDashboard() {
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-[hsl(350,46%,46%)] animate-pulse" />
-            <span className="font-mono text-xs text-[hsl(350,46%,46%)] tracking-[0.2em] uppercase">
+            <span className="font-display text-[10px] text-[hsl(350,46%,46%)] tracking-[0.1em] uppercase">
               Commander Center
             </span>
           </div>
-          <span className="text-white/20 text-xs font-mono">|</span>
-          <span className="font-mono text-xs text-white/40">BLACK DOG SECURITY</span>
+          <span className="text-white/20 text-[10px] font-display">|</span>
+          <span className="font-display text-[10px] text-white/40 tracking-[0.06em]">BLACK DOG SECURITY</span>
         </div>
         <div className="flex items-center gap-4">
           {totalPending > 0 && (
@@ -86,13 +86,13 @@ export default function CommanderDashboard() {
           )}
           <button
             onClick={() => refetch()}
-            className="font-mono text-xs text-white/40 hover:text-white/70 uppercase tracking-widest transition-colors"
+            className="font-display text-[10px] text-white/40 hover:text-white/70 uppercase tracking-[0.1em] transition-colors"
           >
             Refresh
           </button>
           <button
             onClick={handleLogout}
-            className="font-mono text-xs text-[hsl(350,46%,46%)] hover:text-[hsl(350,46%,60%)] uppercase tracking-widest transition-colors"
+            className="font-display text-[10px] text-[hsl(350,46%,46%)] hover:text-[hsl(350,46%,60%)] uppercase tracking-[0.1em] transition-colors"
           >
             Logout
           </button>
@@ -123,7 +123,7 @@ export default function CommanderDashboard() {
             <button
               key={key}
               onClick={() => setFilterStatus(filterStatus === key ? "" : key)}
-              className={`border rounded-sm px-4 py-2 font-mono text-xs uppercase tracking-wider transition-all ${
+              className={`border rounded-sm px-4 py-2 font-display text-[10px] uppercase tracking-[0.08em] transition-all ${
                 filterStatus === key
                   ? key === "" ? "border-white/30 text-white bg-white/[0.06]"
                     : (STATUS_META[key]?.cls ?? "border-white/30 text-white")

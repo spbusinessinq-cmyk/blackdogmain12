@@ -39,7 +39,7 @@ export default function CommanderLogin() {
           <div className="mb-8 text-center">
             <div className="inline-flex items-center gap-2 mb-4">
               <div className="w-2 h-2 rounded-full bg-[hsl(350,46%,46%)]" />
-              <span className="font-mono text-xs text-[hsl(350,46%,46%)] tracking-[0.2em] uppercase">
+              <span className="font-display text-[10px] text-[hsl(350,46%,46%)] tracking-[0.1em] uppercase">
                 Restricted Access
               </span>
               <div className="w-2 h-2 rounded-full bg-[hsl(350,46%,46%)]" />
@@ -54,7 +54,7 @@ export default function CommanderLogin() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block font-mono text-xs text-white/50 uppercase tracking-widest mb-2">
+              <label className="block font-display text-[10px] text-white/50 uppercase tracking-[0.1em] mb-2">
                 Username
               </label>
               <input
@@ -67,7 +67,7 @@ export default function CommanderLogin() {
               />
             </div>
             <div>
-              <label className="block font-mono text-xs text-white/50 uppercase tracking-widest mb-2">
+              <label className="block font-display text-[10px] text-white/50 uppercase tracking-[0.1em] mb-2">
                 Password
               </label>
               <input
@@ -89,7 +89,7 @@ export default function CommanderLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[hsl(350,46%,46%)] hover:bg-[hsl(350,46%,52%)] disabled:opacity-50 text-white font-mono text-xs tracking-widest uppercase py-3 rounded-sm transition-colors mt-2"
+              className="w-full bg-[hsl(350,46%,46%)] hover:bg-[hsl(350,46%,52%)] disabled:opacity-50 text-white font-display text-[10px] tracking-[0.08em] uppercase py-3 rounded-sm transition-colors mt-2"
             >
               {loading ? "Authenticating..." : "Authenticate"}
             </button>
@@ -98,7 +98,7 @@ export default function CommanderLogin() {
           <div className="mt-6 pt-4 border-t border-white/5 text-center">
             <a
               href="/"
-              className="font-mono text-xs text-white/30 hover:text-white/60 transition-colors"
+              className="font-display text-[10px] text-white/30 hover:text-white/60 tracking-[0.06em] transition-colors"
             >
               Return to Main Site
             </a>
